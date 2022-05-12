@@ -6,6 +6,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,6 +17,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "Record";
 
     private static final int SAMPLING_RATE_IN_HZ = 48000;
 
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mStartButton;
     private Button mStopButton;
 
+    private Button mStartButton2;
+    private Button mStopButton2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +61,20 @@ public class MainActivity extends AppCompatActivity {
 
         mStartButton = findViewById(R.id.startbutton);
         mStopButton = findViewById(R.id.stopbutton);
+
+        mStartButton2 = findViewById(R.id.startbutton2);
+        mStopButton2 = findViewById(R.id.stopbutton2);
+
+        mStartButton.setEnabled(true);
+        mStopButton.setEnabled(false);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startRecording();
                 mStartButton.setEnabled(false);
                 mStopButton.setEnabled(true);
+                Log.i(TAG,"startRecord twice");
+                startRecording();
             }
         });
 
@@ -76,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void onResume() {
         super.onResume();
-        //mStartButton.setEnabled(true);
-        //mStopButton.setEnabled(false);
+        mStartButton.setEnabled(true);
+        mStopButton.setEnabled(false);
     }
 
     protected void onPause() {
